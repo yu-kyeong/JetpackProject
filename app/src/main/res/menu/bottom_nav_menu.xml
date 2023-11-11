@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/coinListFragment"
+        android:title="게시물"
+        android:icon="@drawable/ic_menu_post"/>
+
+    <item
+        android:id="@+id/priceChangeFragment"
+        android:title="찜한 게시물"
+        android:icon="@drawable/ic_menu_fav"/>
+</menu>
