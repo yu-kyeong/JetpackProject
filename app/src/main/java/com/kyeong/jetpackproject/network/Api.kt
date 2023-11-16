@@ -9,7 +9,7 @@ import retrofit2.http.Query
 
 interface Api {
 
-    @GET("getVilageFcst?serviceKey${BuildConfig.API_KEY}")
+    @GET("getVilageFcst?serviceKey=${BuildConfig.API_KEY}")
     suspend fun getWeatherInfo(
         @Query("dataType") dataType : String,
         @Query("numOfRows") numOfRows : Int,

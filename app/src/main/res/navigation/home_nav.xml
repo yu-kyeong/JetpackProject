@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/home_nav"
+    app:startDestination="@id/weatherListFragment">
+
+    <fragment
+        android:id="@+id/weatherListFragment"
+        android:name="com.kyeong.jetpackproject.view.WeatherListFragment"
+        android:label="fragment_weather_list"
+        tools:layout="@layout/fragment_weather_list" >
+        <action
+            android:id="@+id/action_weatherListFragment_to_weatherStoreFragment"
+            app:destination="@id/weatherStoreFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/weatherStoreFragment"
+        android:name="com.kyeong.jetpackproject.view.WeatherStoreFragment"
+        android:label="fragment_weather_store"
+        tools:layout="@layout/fragment_weather_store" />
+</navigation>

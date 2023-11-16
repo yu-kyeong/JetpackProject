@@ -3,6 +3,7 @@ package com.kyeong.jetpackproject.repository
 import com.kyeong.jetpackproject.network.Api
 import com.kyeong.jetpackproject.network.RetrofitInstance
 import com.kyeong.jetpackproject.network.model.Weather
+import retrofit2.Response
 
 class NetworkRepository {
 

@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">JetpackProject</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <string name="app_title">날씨 예보</string>
 </resources>
