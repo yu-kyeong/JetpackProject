@@ -16,7 +16,7 @@
     </fragment>
     <fragment
         android:id="@+id/weatherStoreFragment"
-        android:name="com.kyeong.jetpackproject.view.WeatherStoreFragment"
+        android:name="com.kyeong.jetpackproject.view.WeatherSaveFragment"
         android:label="fragment_weather_store"
-        tools:layout="@layout/fragment_weather_store" />
+        tools:layout="@layout/fragment_weather_save" />
 </navigation>

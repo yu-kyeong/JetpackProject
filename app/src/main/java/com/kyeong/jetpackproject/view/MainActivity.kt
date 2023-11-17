@@ -21,8 +21,7 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        viewModel.getWeatherInfo("JSON",14,1,
-            20231116,1100,"60","127")
+
         viewModel.weatherResponse.observe(this){
             for(i in it){
                 Log.d("result", "$i")
