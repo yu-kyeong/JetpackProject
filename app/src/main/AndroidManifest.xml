@@ -17,7 +17,8 @@
         <activity
             android:name=".view.IntroActivity"
             android:exported="true"
-            android:theme="@style/Theme.Jetpack.Splash">
+            android:theme="@style/Theme.Jetpack.Splash"
+            >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

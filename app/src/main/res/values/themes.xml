@@ -16,8 +16,7 @@
     </style>
 
     <style name="Theme.Jetpack.Splash" parent="Theme.SplashScreen">
-        <item name="windowSplashScreenBackground">@color/black</item>
-<!--        <item name="windowSplashScreenAnimatedIcon">@drawable/graph</item>-->
+        <item name="windowSplashScreenBackground">@color/main_color</item>
         <item name="postSplashScreenTheme">@style/Theme.JetpackProject</item>
     </style>
 

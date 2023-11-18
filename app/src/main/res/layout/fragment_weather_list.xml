@@ -18,6 +18,15 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <com.airbnb.lottie.LottieAnimationView
+        android:id="@+id/animationView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:lottie_rawRes="@raw/weather"
+        app:lottie_repeatCount="1"
+        app:lottie_loop="true"
+        app:lottie_autoPlay="true"/>
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/weatherListRV"
         android:layout_width="match_parent"

@@ -13,20 +13,12 @@ import com.kyeong.jetpackproject.repository.NetworkRepository
 
 class MainActivity : AppCompatActivity() {
 
-    private val viewModel by viewModels<WeatherViewModel>()
     private lateinit var binding : ActivityMainBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
-
-        viewModel.weatherResponse.observe(this){
-            for(i in it){
-                Log.d("result", "$i")
-            }
-        }
 
         val bottomNavigationView = binding.naviBar
         val navController = findNavController(R.id.fragmentContainerView)
