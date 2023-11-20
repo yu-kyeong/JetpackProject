@@ -7,7 +7,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.kyeong.jetpackproject.R
 
-class WeatherSaveFragment : Fragment() {
+class SaveWeatherInfoFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -18,7 +18,7 @@ class WeatherSaveFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.fragment_weather_save, container, false)
+        return inflater.inflate(R.layout.fragment_save_weather_info, container, false)
     }
 
 }

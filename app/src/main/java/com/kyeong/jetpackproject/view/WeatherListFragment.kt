@@ -1,9 +1,7 @@
 package com.kyeong.jetpackproject.view
 
-import android.animation.Animator
-import android.animation.Animator.AnimatorListener
+import android.annotation.SuppressLint
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,14 +10,14 @@ import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.airbnb.lottie.LottieAnimationView
 import com.kyeong.jetpackproject.databinding.FragmentWeatherListBinding
-import com.kyeong.jetpackproject.network.model.Weather
 import com.kyeong.jetpackproject.view.adapter.WeatherRVAdapter
+import java.text.SimpleDateFormat
+import java.util.Calendar
 
 
 class WeatherListFragment : Fragment() {
     private val viewModel by viewModels<WeatherViewModel>()
-    private lateinit var binding : FragmentWeatherListBinding
-    private val weatherInfoList = ArrayList<Weather.Item>()
+    private lateinit var binding: FragmentWeatherListBinding
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -29,21 +27,36 @@ class WeatherListFragment : Fragment() {
         return binding.root
     }
 
+    @SuppressLint("SimpleDateFormat")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val animation : LottieAnimationView = binding.animationView
+        val animation: LottieAnimationView = binding.animationView
 
-        viewModel.getWeatherInfo("JSON",14,1,
-            20231117,1100,"60","127")
+        val cal = Calendar.getInstance()
+        cal.add(Calendar.HOUR, -1) // api 호출 가능 시간 고려
+        val baseDate = Integer.parseInt(SimpleDateFormat("yyyyMMdd").format(cal.time))
+        val baseTime = Integer.parseInt(SimpleDateFormat("HH00").format(cal.time))
 
-        viewModel.weatherResponse.observe(requireActivity()){
-            animation.visibility = View.GONE
-            val weatherRVAdapter = WeatherRVAdapter(requireContext(), it )
+        viewModel.getWeatherInfo(
+            "JSON", 14, 1,
+            baseDate, baseTime, "60", "127"
+        )
+
+        binding.dateText.text = SimpleDateFormat("yyyy.MM.dd").format(cal.time)
+        binding.timeText.text = SimpleDateFormat("HH:00").format(cal.time)
+
+        // 단기 날씨 예보 불러올 때
+        viewModel.weatherResponse.observe(requireActivity()) {
+
+            animation.visibility =
+                if (it.isNullOrEmpty()) View.VISIBLE else View.GONE
+
+            val weatherRVAdapter = WeatherRVAdapter(requireContext(), it)
             binding.weatherListRV.adapter = weatherRVAdapter
             binding.weatherListRV.layoutManager = LinearLayoutManager(requireContext())
 
-            /*for(i in it) {
+           /* for (i in it) {
                 Log.d("result", "$i")
             }*/
         }

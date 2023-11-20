@@ -4,10 +4,10 @@
     <item
         android:id="@+id/weatherListFragment"
         android:title="게시물"
-        android:icon="@drawable/ic_menu_post"/>
+        android:icon="@drawable/ic_menu_weather"/>
 
     <item
         android:id="@+id/weatherStoreFragment"
         android:title="찜한 게시물"
-        android:icon="@drawable/ic_menu_fav"/>
+        android:icon="@drawable/ic_menu_save"/>
 </menu>

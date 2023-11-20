@@ -11,13 +11,13 @@ import androidx.recyclerview.widget.RecyclerView
 import com.kyeong.jetpackproject.R
 import com.kyeong.jetpackproject.network.model.Weather
 
-class WeatherRVAdapter(val context: Context, val weatherList: List<Weather.Item>)
+class WeatherRVAdapter(val context: Context, private val weatherList: List<Weather.Item>)
     : RecyclerView.Adapter<WeatherRVAdapter.ViewHolder>(){
 
     inner class ViewHolder(view : View) : RecyclerView.ViewHolder(view) {
-        val category = view.findViewById<TextView>(R.id.category)
-        val fcstValue = view.findViewById<TextView>(R.id.fcstValue)
-        val saveBtn = view.findViewById<ImageView>(R.id.saveBtn)
+        val category: TextView = view.findViewById(R.id.category)
+        val fcstValue: TextView = view.findViewById(R.id.fcstValue)
+        val saveBtn: ImageView = view.findViewById(R.id.saveBtn)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): WeatherRVAdapter.ViewHolder {
@@ -28,7 +28,6 @@ class WeatherRVAdapter(val context: Context, val weatherList: List<Weather.Item>
     override fun onBindViewHolder(holder: WeatherRVAdapter.ViewHolder, position: Int) {
         holder.itemView.findViewById<ImageView>(R.id.saveBtn).setOnClickListener { v ->
         }
-
         holder.category.text = weatherList[position].category
         holder.fcstValue.text = weatherList[position].fcstValue
     }

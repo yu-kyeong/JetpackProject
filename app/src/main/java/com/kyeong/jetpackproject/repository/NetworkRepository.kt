@@ -11,7 +11,7 @@ class NetworkRepository {
 
     suspend fun getWeatherInfo(
         dataType : String, numOfRows : Int, pageNo : Int,
-        baseDate : Int, baseTime : Int, nx : String, ny : String) : Weather {
+        baseDate : Int, baseTime : Int, nx : String, ny : String) : Response<Weather> {
         return client.getWeatherInfo(dataType,numOfRows,pageNo,baseDate,baseTime,nx,ny)
     }
 }

@@ -9,6 +9,7 @@ import retrofit2.http.Query
 
 interface Api {
 
+    // 단기 일기 예보 조회
     @GET("getVilageFcst?serviceKey=${BuildConfig.API_KEY}")
     suspend fun getWeatherInfo(
         @Query("dataType") dataType : String,
@@ -18,5 +19,5 @@ interface Api {
         @Query("base_time") baseTime : Int,
         @Query("nx") nx : String,
         @Query("ny") ny : String
-    ) : Weather
+    ) : Response<Weather>
 }
