@@ -4,12 +4,14 @@ import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
 import com.google.gson.Gson
 import com.kyeong.jetpackproject.db.entity.SaveWeatherInfoEntity
 import com.kyeong.jetpackproject.network.model.Weather
 import com.kyeong.jetpackproject.repository.DBRepository
 import com.kyeong.jetpackproject.repository.NetworkRepository
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 class WeatherViewModel : ViewModel() {
@@ -17,6 +19,8 @@ class WeatherViewModel : ViewModel() {
     private val netWorkRepository = NetworkRepository()
     private val dbRepository = DBRepository()
     private lateinit var weatherInfoList: ArrayList<Weather.Item>
+
+    lateinit var selectedList : LiveData<List<SaveWeatherInfoEntity>>
 
     private val _weatherResponse: MutableLiveData<List<Weather.Item>> = MutableLiveData()
     val weatherResponse: LiveData<List<Weather.Item>> get() = _weatherResponse
@@ -56,6 +60,7 @@ class WeatherViewModel : ViewModel() {
             }
 
             _weatherResponse.value = weatherInfoList
+
             Log.d("weather list", _weatherResponse.value.toString())
         }
     }
@@ -63,9 +68,8 @@ class WeatherViewModel : ViewModel() {
     /**
      * 날씨 예보 정보 저장하기
      */
-    fun saveSelectedWeatherList() = viewModelScope.launch {
+    fun saveSelectedWeatherList() = viewModelScope.launch(Dispatchers.IO) {
         for (weather in weatherInfoList) {
-
             val insertWeatherInfo = SaveWeatherInfoEntity(
                 0,
                 weather.baseDate,
@@ -78,8 +82,12 @@ class WeatherViewModel : ViewModel() {
                 weather.ny,
                 false
             )
-
             dbRepository.insertWeatherInfo(insertWeatherInfo)
         }
+    }
+
+    fun getAllWeatherInfoData() = viewModelScope.launch {
+        val list = dbRepository.getAllWeatherInfoData().asLiveData()
+        selectedList = list
     }
 }

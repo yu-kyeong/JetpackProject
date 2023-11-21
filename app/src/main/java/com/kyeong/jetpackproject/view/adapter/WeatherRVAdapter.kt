@@ -9,9 +9,10 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.kyeong.jetpackproject.R
+import com.kyeong.jetpackproject.db.entity.SaveWeatherInfoEntity
 import com.kyeong.jetpackproject.network.model.Weather
 
-class WeatherRVAdapter(val context: Context, private val weatherList: List<Weather.Item>)
+class WeatherRVAdapter(val context: Context, private val weatherList: List<SaveWeatherInfoEntity>)
     : RecyclerView.Adapter<WeatherRVAdapter.ViewHolder>(){
 
     inner class ViewHolder(view : View) : RecyclerView.ViewHolder(view) {
@@ -30,10 +31,10 @@ class WeatherRVAdapter(val context: Context, private val weatherList: List<Weath
         }
         holder.category.text = weatherList[position].category
         holder.fcstValue.text = weatherList[position].fcstValue
+
     }
 
     override fun getItemCount(): Int {
         return weatherList.size
-
     }
 }

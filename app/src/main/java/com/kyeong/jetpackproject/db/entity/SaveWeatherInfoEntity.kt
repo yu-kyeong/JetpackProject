@@ -2,6 +2,8 @@ package com.kyeong.jetpackproject.db.entity
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import androidx.room.TypeConverter
+import java.util.Date
 
 @Entity(tableName = "save_weather_info_table")
 data class SaveWeatherInfoEntity(
@@ -19,3 +21,17 @@ data class SaveWeatherInfoEntity(
     val selected : Boolean
 
 )
+
+class DateConverters {
+
+    @TypeConverter
+    fun fromTimestamp(value : Long) : Date {
+        return Date(value)
+    }
+
+    @TypeConverter
+    fun dateToTimestamp(date : Date) : Long {
+        return date.time
+    }
+
+}

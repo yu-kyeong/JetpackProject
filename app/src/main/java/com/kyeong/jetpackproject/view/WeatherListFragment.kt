@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.airbnb.lottie.LottieAnimationView
 import com.kyeong.jetpackproject.databinding.FragmentWeatherListBinding
@@ -34,7 +35,7 @@ class WeatherListFragment : Fragment() {
         val animation: LottieAnimationView = binding.animationView
 
         val cal = Calendar.getInstance()
-        cal.add(Calendar.HOUR, -1) // api 호출 가능 시간 고려
+        cal.add(Calendar.HOUR, -4) // api 호출 가능 시간 고려
         val baseDate = Integer.parseInt(SimpleDateFormat("yyyyMMdd").format(cal.time))
         val baseTime = Integer.parseInt(SimpleDateFormat("HH00").format(cal.time))
 
@@ -47,20 +48,24 @@ class WeatherListFragment : Fragment() {
         binding.timeText.text = SimpleDateFormat("HH:00").format(cal.time)
 
         // 단기 날씨 예보 불러올 때
-        viewModel.weatherResponse.observe(requireActivity()) {
-
+        viewModel.weatherResponse.observe(viewLifecycleOwner, Observer {
+            viewModel.saveSelectedWeatherList()
             animation.visibility =
                 if (it.isNullOrEmpty()) View.VISIBLE else View.GONE
 
-            val weatherRVAdapter = WeatherRVAdapter(requireContext(), it)
-            binding.weatherListRV.adapter = weatherRVAdapter
-            binding.weatherListRV.layoutManager = LinearLayoutManager(requireContext())
+
 
            /* for (i in it) {
                 Log.d("result", "$i")
             }*/
-        }
+        })
 
+        viewModel.getAllWeatherInfoData()
+        viewModel.selectedList.observe(viewLifecycleOwner, Observer {
 
+            val weatherRVAdapter = WeatherRVAdapter(requireContext(), it)
+            binding.weatherListRV.adapter = weatherRVAdapter
+            binding.weatherListRV.layoutManager = LinearLayoutManager(requireContext())
+        })
     }
 }
