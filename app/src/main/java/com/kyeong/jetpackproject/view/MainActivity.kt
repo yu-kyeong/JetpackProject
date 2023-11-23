@@ -24,6 +24,9 @@ class MainActivity : AppCompatActivity() {
         val navController = findNavController(R.id.fragmentContainerView)
 
         bottomNavigationView.setupWithNavController(navController)
+    }
 
+    override fun onBackPressed() {
+        this.finish()
     }
 }

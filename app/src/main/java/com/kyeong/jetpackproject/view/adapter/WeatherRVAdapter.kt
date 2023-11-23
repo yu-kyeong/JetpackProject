@@ -1,7 +1,6 @@
 package com.kyeong.jetpackproject.view.adapter
 
 import android.content.Context
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,11 +8,15 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.kyeong.jetpackproject.R
-import com.kyeong.jetpackproject.db.entity.SaveWeatherInfoEntity
 import com.kyeong.jetpackproject.network.model.Weather
 
-class WeatherRVAdapter(val context: Context, private val weatherList: List<SaveWeatherInfoEntity>)
+class WeatherRVAdapter(val context: Context, private val weatherList: List<Weather.Item>)
     : RecyclerView.Adapter<WeatherRVAdapter.ViewHolder>(){
+
+    interface ItemClick {
+        fun onClick(view : View, position: Int)
+    }
+    var itemClick : ItemClick? = null
 
     inner class ViewHolder(view : View) : RecyclerView.ViewHolder(view) {
         val category: TextView = view.findViewById(R.id.category)
@@ -27,11 +30,11 @@ class WeatherRVAdapter(val context: Context, private val weatherList: List<SaveW
     }
 
     override fun onBindViewHolder(holder: WeatherRVAdapter.ViewHolder, position: Int) {
-        holder.itemView.findViewById<ImageView>(R.id.saveBtn).setOnClickListener { v ->
+        holder.saveBtn.setOnClickListener { v ->
+            itemClick?.onClick(v, position)
         }
         holder.category.text = weatherList[position].category
         holder.fcstValue.text = weatherList[position].fcstValue
-
     }
 
     override fun getItemCount(): Int {

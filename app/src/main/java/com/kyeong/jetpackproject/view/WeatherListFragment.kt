@@ -1,13 +1,13 @@
 package com.kyeong.jetpackproject.view
 
 import android.annotation.SuppressLint
+import android.app.AlertDialog
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.airbnb.lottie.LottieAnimationView
 import com.kyeong.jetpackproject.databinding.FragmentWeatherListBinding
@@ -35,7 +35,7 @@ class WeatherListFragment : Fragment() {
         val animation: LottieAnimationView = binding.animationView
 
         val cal = Calendar.getInstance()
-        cal.add(Calendar.HOUR, -4) // api 호출 가능 시간 고려
+        cal.add(Calendar.HOUR, -1) // api 호출 가능 시간 고려
         val baseDate = Integer.parseInt(SimpleDateFormat("yyyyMMdd").format(cal.time))
         val baseTime = Integer.parseInt(SimpleDateFormat("HH00").format(cal.time))
 
@@ -47,25 +47,34 @@ class WeatherListFragment : Fragment() {
         binding.dateText.text = SimpleDateFormat("yyyy.MM.dd").format(cal.time)
         binding.timeText.text = SimpleDateFormat("HH:00").format(cal.time)
 
-        // 단기 날씨 예보 불러올 때
-        viewModel.weatherResponse.observe(viewLifecycleOwner, Observer {
-            viewModel.saveSelectedWeatherList()
+        // 일기 예보 불러올 때
+        viewModel.weatherResponse.observe(viewLifecycleOwner) {
             animation.visibility =
                 if (it.isNullOrEmpty()) View.VISIBLE else View.GONE
 
-
-
-           /* for (i in it) {
-                Log.d("result", "$i")
-            }*/
-        })
-
-        viewModel.getAllWeatherInfoData()
-        viewModel.selectedList.observe(viewLifecycleOwner, Observer {
-
+//            for (i in it) {
+//                Log.d("selectedList", "$i")
+//            }
             val weatherRVAdapter = WeatherRVAdapter(requireContext(), it)
             binding.weatherListRV.adapter = weatherRVAdapter
             binding.weatherListRV.layoutManager = LinearLayoutManager(requireContext())
-        })
+
+            weatherRVAdapter.itemClick = object : WeatherRVAdapter.ItemClick {
+                override fun onClick(view: View, position: Int) {
+                    // db update
+                    AlertDialog.Builder(context)
+                        .setCancelable(false)
+                        .setMessage("날씨 정보를 찜하시겠습니까?")
+                        .setNegativeButton(android.R.string.cancel) { _, _ -> }
+                        .setPositiveButton(android.R.string.ok) { _, _ ->
+                            viewModel.saveSelectedWeatherList(it[position])
+                        }
+                        .create()
+                        .show()
+                }
+            }
+
+        }
     }
+
 }

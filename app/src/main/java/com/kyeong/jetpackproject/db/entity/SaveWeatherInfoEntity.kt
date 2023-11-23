@@ -17,9 +17,7 @@ data class SaveWeatherInfoEntity(
     val fcstTime : Int,
     val fcstValue : String,
     val nx : Int,
-    val ny : Int,
-    val selected : Boolean
-
+    val ny : Int
 )
 
 class DateConverters {

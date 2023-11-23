@@ -3,6 +3,7 @@ package com.kyeong.jetpackproject.view
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
@@ -19,14 +20,13 @@ class WeatherViewModel : ViewModel() {
     private val netWorkRepository = NetworkRepository()
     private val dbRepository = DBRepository()
     private lateinit var weatherInfoList: ArrayList<Weather.Item>
-
-    lateinit var selectedList : LiveData<List<SaveWeatherInfoEntity>>
+    lateinit var selectedList: LiveData<List<SaveWeatherInfoEntity>>
 
     private val _weatherResponse: MutableLiveData<List<Weather.Item>> = MutableLiveData()
     val weatherResponse: LiveData<List<Weather.Item>> get() = _weatherResponse
 
     /**
-     * 단기 예보 정보 가져오기
+     * 일기 예보 api 호출
      */
     fun getWeatherInfo(
         dataType: String, numOfRows: Int, pageNo: Int,
@@ -60,34 +60,42 @@ class WeatherViewModel : ViewModel() {
             }
 
             _weatherResponse.value = weatherInfoList
-
             Log.d("weather list", _weatherResponse.value.toString())
         }
     }
 
     /**
-     * 날씨 예보 정보 저장하기
+     * 날씨 정보 저장
      */
-    fun saveSelectedWeatherList() = viewModelScope.launch(Dispatchers.IO) {
-        for (weather in weatherInfoList) {
-            val insertWeatherInfo = SaveWeatherInfoEntity(
-                0,
-                weather.baseDate,
-                weather.baseTime,
-                weather.category,
-                weather.fcstDate,
-                weather.fcstTime,
-                weather.fcstValue,
-                weather.nx,
-                weather.ny,
-                false
-            )
-            dbRepository.insertWeatherInfo(insertWeatherInfo)
-        }
+    fun saveSelectedWeatherList(weather: Weather.Item) = viewModelScope.launch(Dispatchers.IO) {
+        val insertWeatherInfo = SaveWeatherInfoEntity(
+            0,
+            weather.baseDate,
+            weather.baseTime,
+            weather.category,
+            weather.fcstDate,
+            weather.fcstTime,
+            weather.fcstValue,
+            weather.nx,
+            weather.ny
+        )
+        dbRepository.insertWeatherInfo(insertWeatherInfo)
     }
 
+    /**
+     * 저장된 날씨 정보 가져오기
+     */
     fun getAllWeatherInfoData() = viewModelScope.launch {
         val list = dbRepository.getAllWeatherInfoData().asLiveData()
         selectedList = list
     }
+
+    /**
+     * 저장된 날씨 정보 지우기
+     */
+    fun removeWeatherInfo(saveWeatherInfoEntity: SaveWeatherInfoEntity) =
+        viewModelScope.launch(Dispatchers.IO) {
+            dbRepository.removeWeatherInfo(saveWeatherInfoEntity)
+        }
+
 }

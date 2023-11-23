@@ -7,6 +7,7 @@
     tools:context=".view.SaveWeatherInfoFragment">
 
     <TextView
+        android:id="@+id/titleText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="20dp"
@@ -25,5 +26,14 @@
         app:lottie_repeatCount="1"
         app:lottie_autoPlay="true"
         app:lottie_loop="true"/>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/saveWeatherListRV"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="80dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/titleText" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -9,10 +9,11 @@ class DBRepository {
     val context = App.context()
     val db = WeatherDatabase.getDatabase(context)
 
-    // 전체 날씨 정보 가져오기
+    // 저장한 날씨 정보 가져오기
     fun getAllWeatherInfoData() = db.saveWeatherInfoDAO().getAllData()
-
+    // 날씨 정보 저장
     fun insertWeatherInfo(saveWeatherInfoEntity: SaveWeatherInfoEntity) = db.saveWeatherInfoDAO().insert(saveWeatherInfoEntity)
-
+    // 저장한 날씨 정보 삭제
+    fun removeWeatherInfo(saveWeatherInfoEntity: SaveWeatherInfoEntity) = db.saveWeatherInfoDAO().remove(saveWeatherInfoEntity)
 
 }
