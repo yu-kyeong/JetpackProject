@@ -59,9 +59,11 @@ class WeatherViewModel : ViewModel() {
                 }
             }
 
-            _weatherResponse.value = weatherInfoList
             Log.d("weather list", _weatherResponse.value.toString())
         }
+
+        _weatherResponse.value = weatherInfoList
+
     }
 
     /**
